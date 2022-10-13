@@ -1,13 +1,21 @@
 #!/bin/bash
-#printing the FQDN using hostname command with help of echo
-echo "FQDN:"$HOSTNAME
-#using uname command to print the type of operating system and its version.
-#m for machine name, R for kernel release and s for kernel name. 
-echo "Machine name:"$(uname -m)
-echo "Kernel release:"$(uname -r)
-echo "Kernel namw:"$(uname -s)
-#command to list ip address of the host. 
-echo "IP address:"$(hostname -I)
+#FQDN using hostname command and storing it into variable. 
+FQDN=$HOSTNAME
+#using uname command for operating system and its version and storing it into variable.
+Machinename=$(uname)
+Kernelrelease=$(uname -r)
+#command to list ip address of the host and storing it into variable. 
+IPaddress=$(hostname -I)
 #command to display space available in root filesystem
-echo "Root filesystem status:"$(df -h /)
+Disk=$(df -h / |awk 'NR==2 {print $4}')
 
+#Printing the output in required format.
+cat<<EOF
+Report for hostname
+===============
+FQDN: $FQDN
+Operating System name and Version: $Machinename/$Kernelrelease
+IP Address: $IPaddress
+Root Filesystem Free Space: $Disk
+===============
+EOF
