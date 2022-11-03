@@ -1,0 +1,16 @@
+#!/bin/bash
+#to install lxd
+sudo snap install lxd
+#to initatie lxd by default
+sudo lxd init --auto
+#to launch container
+lxc launch ubuntu:COMP2101-S22
+#adding the entry
+sudo $echo "10.14.235.125	COMP2101-S22" >> /etc/hosts
+#to update the container
+lxc exec COMP2101-S22 -- apt update
+#to install apache in container
+lxc exec COMP2101-S22 -- apt install apache2
+#redirecting connections to port 80.
+sudo lxc config device add COMP2101-S22 myport80 proxy listen=tcp:0.0.0.0:80 connect=tcp:127.0.0.1:80
+curl http://COMP2101-S22
